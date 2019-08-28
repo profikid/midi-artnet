@@ -1,6 +1,7 @@
-var Mapping = require('./Mapping')
+var Mapper = require('./Mapper')
 var Universe = require('./Universe') 
 var Midi = require('./Midi') 
+var Cube = require('./Cube')
 
 var universes = [
     new Universe(1),
@@ -11,13 +12,13 @@ var universes = [
     new Universe(6)
 ]
 
-var mappings = [
-    new Mapping(21, 2, 1),
-    new Mapping(54, 5, 4),
-    new Mapping(76, 7, 6)
-]
+var mapper = new Mapper()
+mapper.add(21,2, new Cube(1,1))
+mapper.add(21, 2, new Cube(1, 31))
+mapper.add(54, 5, 4)
+mapper.add(76, 7, 6)
 
-console.log(mapping)
+console.log(mapper)
 
 let midi = new Midi()
 let midiInput = midi.getDevices()

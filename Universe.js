@@ -1,9 +1,8 @@
 var Cube = require('./Cube')
 
 module.exports = class Universe {
-    constructor(id, amountCubes = 9){
-        this.id = id
-        this.universeIndex = id
+    constructor(universe, amountCubes = 9){
+        this.universe = universe
         this.amountCubes = amountCubes
         this.cubes = []
         this.initCubes()
@@ -11,7 +10,7 @@ module.exports = class Universe {
     
     initCubes(){
         for (let cubeIndex = 0; cubeIndex <= this.amountCubes; cubeIndex++) {
-            this.cubes.push(new Cube(cubeIndex, this.universeIndex, cubeIndex * 30 + 1))            
+            this.cubes.push(new Cube(cubeIndex, this.universe, cubeIndex * 30 + 1))            
         }
     }
 }
