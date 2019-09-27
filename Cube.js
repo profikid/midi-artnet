@@ -1,35 +1,47 @@
-var Channel = require('./Channel')
+var Led = require('./Led')
+var convert = require('color-convert');
+var options = {
+    host: 'localhost'
+}
+var artnet = require('artnet')(options);
+
+var channelIndex = 1
+var amountChannels = 30
+
 
 module.exports = class Cube {
-    constructor(id, startChannelIndex){
+    constructor(universe, id){
+        this.universe = universe
         this.id = id
-        this.startChannelIndex = startChannelIndex
-        this.amountChannels = 30
+        this.startChannel = channelIndex
+        this.amountChannels = amountChannels
+        channelIndex += amountChannels
         this.channels = []
-        this.initChannels()
     }
 
-    initChannels(){
-        let endChannelIndex = this.startChannelIndex + this.amountChannels
-        for (let index = this.startChannelIndex; index < endChannelIndex; index++) {
-            this.channels.push(new Channel(index, 240))       
-        }
-    }
+    play(velocity){
 
-    play(universe, velocity){
-
-
-        // 0. velocity naar RBG => color-convert-npm
-        // 1. van elke led (is een eigen class met de RBG waardes welke het verstuurd) voer de fade in/out uit over artnet => check functional-easing npm
-
-    }
-
-    velocityToRBG(velocity) {
-        // color convert hsl
-        var result
+        let rbg = this.velocityToRBG(velocity)
         
-        return result
+        // herhaal de waardes 10 keer
+        let values = Array(10).fill(rbg).flat()
+
+        // 1.  de fade in/out  => check functional-easing en animation-timer, artnet heeft een limiet van 40 fps 
+
+        // stuur de waardes naar artnet
+        artnet.set(this.universe, this.startChannel, values)
+
+
+
     }
 
+
+    // velocity naar RBG
+    velocityToRBG(velocity){
+         // convert hsl naar rgb waarbij de l door de velocity van midi bepaald wordt 
+         let rgb = convert.hsl.rgb(235, 52, velocity / 127 * 100)
+         // rgb naar rbg
+         return [rgb[0], rgb[2], rgb[1]]
+    }
 
 }

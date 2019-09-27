@@ -3,12 +3,11 @@ var options = {
 }
  var artnet = require('artnet')(options);
 
-module.exports = class Channels {
+module.exports = class Led {
     constructor(id, universeIndex, value) {
               this.id = id
               this.universeIndex = universeIndex
               this.value = value
-            //   console.log('universeIndex ' + this.id )
               this.send()
     }
 
