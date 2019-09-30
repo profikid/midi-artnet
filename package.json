@@ -10,8 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "animation-timer": "^1.0.12",
     "artnet": "^1.4.0",
     "color-convert": "^2.0.1",
-    "easymidi": "^1.0.2"
+    "easymidi": "^1.0.2",
+    "functional-easing": "^1.0.10",
+    "lerp": "^1.0.3"
   }
 }

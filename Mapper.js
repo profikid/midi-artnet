@@ -20,7 +20,9 @@ module.exports = class Mapper {
         
         // midi input luisteren - note on
         input.on('noteon', ({velocity, note}) => {
-      
+            
+            console.log('midi note: ' + note + ' velocity ' + velocity)
+
             // filter this.mappings, let op de scope! 
             let filteredMappings = this.mappings.filter(el => el.note === note)
             console.table(filteredMappings)
@@ -29,13 +31,13 @@ module.exports = class Mapper {
             filteredMappings.forEach(m => m.cube.play(velocity))    
         })
 
-        // midi input luisteren - note off
+        // midi input luisteren - note off => DEZE MOET NOG EEN EIGEN AFSPEEL MODE KRIJGEN
         input.on('noteoff', ({velocity, note}) => {
             // filter this.mappings, let op de scope! 
-            let filteredMappings = this.mappings.filter(el => el.note === note)
+                // let filteredMappings = this.mappings.filter(el => el.note === note)
 
             // en dan elke overeenkomt naar de cube sturen om te playen
-            filteredMappings.forEach(m => m.cube.play(velocity))    
+                // filteredMappings.forEach(m => m.cube.play(velocity))    
         })
     }
 }
