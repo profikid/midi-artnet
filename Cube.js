@@ -6,6 +6,7 @@ var Easer = require('functional-easing').Easer
 var convert = require('color-convert')
 var artnet = require('artnet')(artnetOptions)
 var lerp = require('lerp')
+var arrayMove = require('array-move')
 
 
 var channelIndex = 1
@@ -21,7 +22,7 @@ module.exports = class Cube {
         this.channels = []
     }
 
-    play(velocity){
+    play(velocity){ // <= HIER KOMT GEEN CUBE OF UNIVERSE BINNEN
 
         // 1.  de fade in/out  => check functional-easing en animation-timer, artnet heeft een limiet van 40 fps
         // Hier moet de gekozen hsv waarde komen welke vervolgens via een easing functie een mooie fade in/out krijgt
@@ -41,19 +42,22 @@ module.exports = class Cube {
                 hsvinput[2] = lerp(1, 100, velocity)
                 console.log('hsvinput: ' + hsvinput)
 
-                // voer de conversie uit 
-                let rbg = velocityToRBG(hsvinput)
+                // voer de conversie uit ---- hierbij gaat het fout met de scope van de functies
+                // let rbg = velocityToRBG(hsvinput)
+                
+                let rgb = convert.hsv.rgb(hsvinput)
+                let rbg = arrayMove(rgb, 1, 2)
+
                 console.log('rgb: ' + rbg)
 
                 // herhaal de waardes 10 keer
                 let values = Array(10).fill(rbg).flat()
 
                 // stuur de waardes naar artnet
-                artnet.set(this.universe, this.startChannel, values)
+                artnet.set(this.universe, this.startChannel, values) // <= HOE KRIJG IK HIER UNIVERSE EN STARTCHANNEL BINNEN?
             }))
-            .play();
+            .play()
     }
-
 
     // velocity naar RBG
     velocityToRBG(hsvfade){

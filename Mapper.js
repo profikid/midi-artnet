@@ -27,7 +27,7 @@ module.exports = class Mapper {
             let filteredMappings = this.mappings.filter(el => el.note === note)
             console.table(filteredMappings)
 
-            // en dan elke overeenkomt naar de cube sturen om te playen
+            // en dan elke overeenkomst naar de cube sturen om te playen => MAAR HOE KRIJG IK DE UNIVERSE EN NOTE IN DE PLAY VANUIT HET CUBE OBJECT?
             filteredMappings.forEach(m => m.cube.play(velocity))    
         })
 
