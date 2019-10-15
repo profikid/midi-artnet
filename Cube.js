@@ -22,19 +22,21 @@ module.exports = class Cube {
         this.channels = []
     }
 
-    play(velocity){ // <= HIER KOMT GEEN CUBE OF UNIVERSE BINNEN
+    play(velocity, universe, startChannel){
 
-        // 1.  de fade in/out  => check functional-easing en animation-timer, artnet heeft een limiet van 40 fps
+        // we krijgen wel de goede universe en startChannel binnen! 
+        console.log('playVel: ' + velocity)
+        console.log('playUni: ' + universe)
+        console.log('playStartChan: ' + startChannel)
+
         // Hier moet de gekozen hsv waarde komen welke vervolgens via een easing functie een mooie fade in/out krijgt
         let hsvinput = [0, 45, 100]
 
         // selecteer de easing preset, opties op: https://www.npmjs.com/package/functional-easing#easerusingpreset
-        var easer = new Easer()
-            .using('ease-in-sine');
+        var easer = new Easer().using('ease-in-sine')
 
         // zorg dat de easing wordt uitgevoerd
-        var animation = new AnimationTimer()
-            .duration('2000ms') // Kan ms, s of in m
+        var animation = new AnimationTimer().duration('2000ms') // Kan ms, s of in m
             
             // here we wrap our tick handler with our easer..
             .on('tick', easer(function(velocity){
@@ -42,8 +44,8 @@ module.exports = class Cube {
                 hsvinput[2] = lerp(1, 100, velocity)
                 console.log('hsvinput: ' + hsvinput)
 
-                // voer de conversie uit ---- hierbij gaat het fout met de scope van de functies
-                // let rbg = velocityToRBG(hsvinput)
+                // voer de conversie uit 
+                // let rbg = this.velocityToRBG(hsvinput)   //  <= hierbij gaat het fout met de scope van de functies
                 
                 let rgb = convert.hsv.rgb(hsvinput)
                 let rbg = arrayMove(rgb, 1, 2)
@@ -52,6 +54,9 @@ module.exports = class Cube {
 
                 // herhaal de waardes 10 keer
                 let values = Array(10).fill(rbg).flat()
+
+                console.log('values: ' + values)
+
 
                 // stuur de waardes naar artnet
                 artnet.set(this.universe, this.startChannel, values) // <= HOE KRIJG IK HIER UNIVERSE EN STARTCHANNEL BINNEN?

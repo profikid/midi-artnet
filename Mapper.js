@@ -25,10 +25,10 @@ module.exports = class Mapper {
 
             // filter this.mappings, let op de scope! 
             let filteredMappings = this.mappings.filter(el => el.note === note)
-            console.table(filteredMappings)
+            console.log(filteredMappings)
 
-            // en dan elke overeenkomst naar de cube sturen om te playen => MAAR HOE KRIJG IK DE UNIVERSE EN NOTE IN DE PLAY VANUIT HET CUBE OBJECT?
-            filteredMappings.forEach(m => m.cube.play(velocity))    
+            // en dan elke overeenkomst naar de cube sturen om te playen
+            filteredMappings.forEach(m => m.cube.play(velocity, filteredMappings[0].cube.universe, filteredMappings[0].cube.startChannel))    
         })
 
         // midi input luisteren - note off => DEZE MOET NOG EEN EIGEN AFSPEEL MODE KRIJGEN
