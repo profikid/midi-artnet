@@ -1,5 +1,4 @@
-var Mapper = require('./Mapper')
-var Cube = require('./Cube')
+var {Mapper, Cube } = require('./main');
 
 var mapper = new Mapper()
 mapper.add(36, new Cube(1, 1))
